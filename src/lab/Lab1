@@ -1,0 +1,63 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package lab;
+import java.util.Vector;
+
+/**
+ *
+ * @author 2 Mill
+ */
+public class Lab1 {
+    
+    public static void test(String[] args) {
+        Vector<Object> vector = new Vector<Object>();
+        int primitiveInt = 241;
+        Integer wrapperInt = new Integer(2018);
+        String str = "Yannick";
+        vector.add(primitiveInt);
+        vector.add(wrapperInt);
+        vector.add(str);
+        vector.add(2, new Integer(2188));
+        System.out.println("The element of vector: " + vector);
+        System.out.println("The size of vector is : " + vector.size());
+        System.out.println("The elemtns at position 2 is: " + vector.elementAt(2));
+        System.out.println("The first element of vector is: " + vector.firstElement());
+        System.out.println("The last element of vector is: " + vector.lastElement());
+        vector.removeElement(1);
+        System.out.println("The elements of vector" + vector);
+        System.out.println("The size of vector is: " + vector.size());
+        System.out.println("The size of vector is : " + vector.size());
+        System.out.println("The elemtns at position 2 is: " + vector.elementAt(2));
+        System.out.println("The first element of vector is: " + vector.firstElement());
+        System.out.println("The last element of vector is: " + vector.lastElement());
+        vector.clear();
+        for (String arg : args) {
+            //if (arg.equals("[]"));
+            try {
+                vector.add(Integer.parseInt(arg));
+            } catch (NumberFormatException e) {
+            }
+        }
+        System.out.println(vector);
+        int key = (int)(Math.random() + 10000);
+        for (int i = 0; i < vector.size(); i++) {
+            System.out.println(vector.size());
+            System.out.print(i + " " + (i % 2 != 0) + " ");
+            if (i % 2 != 0) {
+                lab.set(i, key);
+            }
+        }
+        while (vector.remove(null));
+        
+        System.out.println(vector);
+        
+        
+        
+        
+        
+    }
+}

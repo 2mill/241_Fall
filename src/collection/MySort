@@ -1,0 +1,12 @@
+public class MySort {
+	public static void bubbleSort(MyVecto v) {
+		int i, j, n=v.size();
+		for (i = 1; i < n; i++) {
+			for (j = n - 1; j >= i; j--) {
+				first = v.elementAt(j-1);
+				second = v.elementAt(j);	
+			}				
+		}	
+	}
+	
+}
