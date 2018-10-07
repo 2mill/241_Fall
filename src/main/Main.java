@@ -1,6 +1,7 @@
 package main;
 import collection.MySet;
 import lab.Lab3;
+import lab.Lab4;
 
 public class Main {
 

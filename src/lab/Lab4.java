@@ -1,15 +1,14 @@
+package lab;
 public class Lab4 {
 	public static void test(String[] args) {
-		for (String s : args) {
-			System.out.println(isPalindrome(s));	
-		}
-			
-	
+		System.out.println(isPalindrome("racecar"));
 	}
 	public static boolean isPalindrome(String str) {
-		//This function is assuming that the word is one entire world
-		return output;
-
+		//Placing a comment here
+		char left, right;
+		while (!str.isEmpty()) {
+			str = str.substring(1,str.length() - 1);
+		}
+		return true;
 	}
-
 }
