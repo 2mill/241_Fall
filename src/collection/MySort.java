@@ -1,4 +1,5 @@
 package collection;
+import java.util.Arrays;
 public class MySort {
 
 	/**
@@ -36,4 +37,32 @@ public class MySort {
 			vec.replace(smallestIndex, temp);
 		}		
 	}
+	//Using arrays to practice the merge sort and then implement Vector
+	public static void mergeSort(int[] arr) {
+		if (arr.length > 1) {
+			int[] left = Arrays.copyOfRange(arr, 0 , arr.length / 2);
+			int[] right = Arrays.copyOfRange(arr, arr.length / 2, arr.length);
+			System.out.println("I got the following " + Arrays.toString(left));
+			System.out.println("and " + Arrays.toString(right));
+			mergeSort(left);
+			mergeSort(right);
+			merge(arr , left, right);
+		}
+
+	}
+	//merging here now
+	//a lot of this code was taken from the book while trying to learn how this works
+	public static void merge(int[] arr, int[] left, int[] right) {
+		int leftIndex = 0; 
+		int rightIndex = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (rightIndex >= right.length || (leftIndex < left.length && left[leftIndex] <= right[rightIndex]))	{
+				arr[i] = left[leftIndex];	
+			} else {
+				arr[i] = right[rightIndex];	
+			}
+
+		}	
+	}
+			
 }
