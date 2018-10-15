@@ -1,5 +1,6 @@
 #!/bin/bash
-javac lab/Lab4.java
+javac lab/Lab5.java
 javac main/Main.java
-java main.Main $1 $2 $3 $4
+java main.Main
 echo "Script done"
+#comment
