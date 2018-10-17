@@ -1,7 +1,7 @@
 #!/bin/bash
-javac collection/MySort.java
+echo "================Program Start======================="
 javac lab/Lab5.java
 javac main/Main.java
 java main.Main
-echo "Script done"
+echo "================Program End======================="
 #comment
