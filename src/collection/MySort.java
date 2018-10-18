@@ -35,7 +35,20 @@ public class MySort {
 			Object temp = vec.elementAt(i);
 			vec.replace(i, vec.elementAt(smallestIndex));
 			vec.replace(smallestIndex, temp);
-		}		
+		}
+	}
+	public static void insertionSort(MyVector vec) {
+		for (int i = 1; i < vec.size(); i++) {
+			Object comparator = vec.elementAt(i);	
+			for (int j = 0; j <= i; j++) {
+				if (compare(comparator, vec.elementAt(j)) == -1) {
+					//push everything and insert;	
+					vec.replace(i, vec.elementAt(i - 1));
+				} else {
+					vec.replace(i, comparator);	
+				}	
+			}
+		}	
 	}
 	//Using arrays to practice the merge sort and then implement Vector
 	public static void mergeSort(int[] arr) {
@@ -122,6 +135,71 @@ public class MySort {
 
 	
 	}
+	public static void quickSort(MyVector vec, int start, int end) {
+		//This is some garbage and I need to refactor later
+		if (start + 1 != end) {
+			int partition = partition(vec, start, end - 1);
+			quickSort(vec, start, partition + 1);
+			quickSort(vec, partition + 1, end);
+		}
+	
+	}
+	private static int partition(MyVector vec, int low, int high) {
+		int mid = (low + high) / 2;
+		if (compare(vec.elementAt(mid), vec.elementAt(low)) == -1) {
+			swap(vec, low, mid);	
+		}
+		if (compare(vec.elementAt(high), vec.elementAt(low)) == -1) {
+			swap(vec, low, high);	
+		}
+		if (compare(vec.elementAt(high), vec.elementAt(mid)) == -1) {
+			swap(vec, mid, high);	
+		}
+		//Median of three works till here
+		int pivot = high;
+		//have the right pivot point and the correct starts and stops
+		while (true) {
+			do {
+				low++;
+			} while (compare(vec.elementAt(pivot), vec.elementAt(low)) == 1); //Increment until finding the end
+			do {
+				high--;	
+			} while (compare(vec.elementAt(pivot), vec.elementAt(high)) == -1); //Increment until finding the lower
+			if (high <= low) {
+				return high;//return the point where things change.	
+			}
+			//otherwise swap
+			swap(vec, low, high);
+
+		
+		}
+
+	}
+	public static void shellSort(MyVector vec) {
+		int length = vec.size();
+		for (int gap = length / 2; gap > 0; gap /= 2) {
+			for (int i = gap; i < length; i++) { 
+				Object temp = vec.elementAt(i);
+				int j;
+				for (j = i; j >= gap && compare(vec.elementAt(j - gap), vec.elementAt(j)) == 1; j -= gap) {
+					swap(vec, j, j - gap);
+				}
+				vec.replace(j, temp);
+			}
+		}
+			
+	}
+	//now comes insertion sort
+	
+	private static int compare(Object target, Object otherThing) {
+		return ((Comparable<Object>)target).compareTo(otherThing);
+	}
+	private static void swap(MyVector vec, int first, int second) {
+		Object temp = vec.elementAt(first);
+		vec.replace(first, vec.elementAt(second));
+		vec.replace(second, temp);	
+	}
+
 
 	private static void printVectorRange(MyVector vec, int start, int end) {
 	

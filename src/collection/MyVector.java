@@ -23,7 +23,7 @@ public class MyVector implements Cloneable {
     * Allows you make an Object array into a vector array
     * @param arr the array that will be wrapped into the vecto
     */ 
-    private MyVector(Object[] arr) {
+    public MyVector(Object[] arr) {
         data = arr;
         
         for (int i = 0; i < arr.length; i++) {
