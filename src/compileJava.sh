@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "================Program Start======================="
-javac main/Main.java
-java main.Main
+javac project/StringTest.java
+java project.StringTest
 echo "================Program End======================="
 #comment
