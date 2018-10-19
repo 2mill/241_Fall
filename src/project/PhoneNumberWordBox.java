@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import collection.MySort;
 public class PhoneNumberWordBox {
-	MyVector wordList = new MyVector();
-	MyVector numberList = new MyVector();
+	MyVector wordList;
+	MyVector numberList;
 	public PhoneNumberWordBox() {
+		wordList = new MyVector();
+		numberList = new MyVector();
 		long time = System.currentTimeMillis();
 		Scanner list;
 		File file = new File("WordList.txt");
@@ -24,11 +26,22 @@ public class PhoneNumberWordBox {
 		//Quickly check the sort to make sure it's working	
 		wordList.reverse();
 		System.out.println(wordList.elementAt(0) + " " + wordList.elementAt(wordList.size() - 2) + " " + wordList.elementAt(wordList.size() - 1));
+		splitList();
+		System.out.println(numberList.elementAt(0) + " " + numberList.elementAt(numberList.size() - 2) + " " + numberList.elementAt(numberList.size() - 1));
+		System.out.println(wordList.elementAt(0) + " " + wordList.elementAt(wordList.size() - 2) + " " + wordList.elementAt(wordList.size() - 1));
 		long end = System.currentTimeMillis();
 		System.out.println((end - time) + " Milliseconds");
 		//Everything from here works like I want it to.
 		//Now I need to split the list
 		
+	}
+	private void splitList() {
+		for (int i = 0; i < wordList.size(); i++) {
+			String temp = (String)wordList.elementAt(i);
+			//if (i <= 2) System.out.println(temp);
+			numberList.append(temp.substring(0, temp.length() / 2));
+			wordList.replace(i, temp.substring(temp.length() / 2));
+		}	
 	}
 	public PhoneNumberWordBox(String word) {
 		//tests the object w/ a regular word for testing purposes
