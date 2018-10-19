@@ -26,13 +26,8 @@ public class MyVector implements Cloneable {
     public MyVector(Object[] arr) {
         data = arr;
         
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == null)  {
-                size = i;
-                break;
-            }
-            size = arr.length;
-        }
+        size = arr.length;
+        
     }
     /**
      * Appends the given element onto the end of the vector
