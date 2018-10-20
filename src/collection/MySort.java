@@ -38,6 +38,7 @@ public class MySort {
 			vec.replace(smallestIndex, temp);
 		}
 	}
+	
 	/**
 	 * Performs an insertion sort on the given vector
 	 * @param vec The vector that the insertion sort will be done on.
