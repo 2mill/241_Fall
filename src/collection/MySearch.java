@@ -22,10 +22,12 @@ public class MySearch {
 		int min = 0;
 		int max = vec.size();
 		int middle;
+		System.out.println("Entered binary search");
 		while (true) {
 			int length = max - min;
 			middle = length / 2 + min;
 			int val = target.compareTo(vec.elementAt(middle));
+			if (max - min == 1 && val != 0) return -1;
 			if (val == 0) {
 				return middle;		
 			} else if (val > 0) {

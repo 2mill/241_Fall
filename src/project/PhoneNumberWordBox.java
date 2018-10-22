@@ -1,9 +1,10 @@
 package project;
+import collection.MySearch;
+import collection.MySort;
 import collection.MyVector;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import collection.MySort;
 public class PhoneNumberWordBox {
 	MyVector wordList;
 	MyVector numberList;
@@ -36,26 +37,18 @@ public class PhoneNumberWordBox {
 		//From here on out, the list splits and sorts properly after inputting my minor hack.
 		
 	}
-	private void checkCount() {
-		int count = 0;
-		for (int i = 0; i < wordList.size(); i++) {
-			String temp = (String)wordList.elementAt(i);
-		}	
-		System.out.println("Number of larger than 7 words " + count);
-		
-	
+	public PhoneNumberWordBox(String word) {
+		//tests the object w/ a regular word for testing purposes
+		System.out.println(getNumbersForString(word));	
 	}
 	private void splitList() {
 		for (int i = 0; i < wordList.size(); i++) {
 			String temp = (String)wordList.elementAt(i);
 			//if (i <= 2) System.out.println(temp);
-			numberList.append(Integer.parseInt(temp.substring(0, temp.length() / 2)));
+			//Integer number = Integer.parseInt(temp.substring(0, temp.length() / 2));
+			numberList.append(temp.substring(0, temp.length() / 2));
 			wordList.replace(i, temp.substring(temp.length() / 2));
 		}	
-	}
-	public PhoneNumberWordBox(String word) {
-		//tests the object w/ a regular word for testing purposes
-		System.out.println(getNumbersForString(word));	
 	}
 	private void generateList(Scanner sc) {
 		int leftIn = 0;
@@ -70,10 +63,6 @@ public class PhoneNumberWordBox {
 			}
 			
 		}	
-		
-		//The above part is being super stupid so I need to write something that will really clear it out
-		//
-		//testing purposes
 	}
 	private String getNumbersForString(String str) {
 		String temp = "";
@@ -111,15 +100,11 @@ public class PhoneNumberWordBox {
 		return temp;
 	}
 	private void preFixNumbers() {
-		int moreThanSeven = 0;
-		int lessThanSeven = 0;
 		for (int i = 0; i < wordList.size(); i++) {
 			//I can cast it here, because I know everything will be a string
 			String temp = getNumbersForString((String)wordList.elementAt(i));
 			String secondTemp = (String)wordList.elementAt(i);
 			secondTemp = temp + secondTemp;
-			if (temp.length() > 7) moreThanSeven++;
-			else lessThanSeven++;
 			wordList.replace(i, secondTemp);
 		}	
 	
@@ -131,18 +116,72 @@ public class PhoneNumberWordBox {
 		}	
 		return true;
 	}
-	public static void selectionSort(MyVector vec) {
-		for (int i = 0; i < vec.size(); i++) {
-			int smallestIndex = i;
-			for (int j = i; j < vec.size(); j++) {
-				if ((int)vec.elementAt(j) < (int)vec.elementAt(smallestIndex)) smallestIndex = j;	
-			}
-			//swap
-			Object temp = vec.elementAt(i);
-			vec.replace(i, vec.elementAt(smallestIndex));
-			vec.replace(smallestIndex, temp);
-		}
+	public void getNumberForIndexInput() {
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+		
+			int input = sc.nextInt();
+			if (input == -1) break;
+			System.out.println(numberList.elementAt(input));	
+			System.out.println(wordList.elementAt(input));
+		}	
 	}
+	public void twoWords(String str) {
+		//Fragment the word
+		MyVector firstList = getStringForNumber(str.substring(0, 4));	
+		MyVector secondList = getStringForNumber(str.substring(4));
+		firstList.merge(secondList);
+		System.out.println(firstList);
+
+	}
+	public MyVector getStringForNumber(String number) {
+		//binarySearch implemented
+		MyVector list = new MyVector();
+		System.out.println("Starting binary search");
+		int index = MySearch.binarySearch(numberList, number); 
+		int indexShifter = index;
+		System.out.println(index);
+		String temp = (String)wordList.elementAt(index);
+		list.append(temp);
+		while (indexShifter > 0) {
+			indexShifter--;
+			String point = (String)numberList.elementAt(indexShifter);
+			System.out.println(wordList.elementAt(indexShifter));
+			if (point.equals(number)) {
+				list.append(wordList.elementAt(indexShifter));		
+			} else {
+				break;
+			}
+		}
+		indexShifter = index;
+		while (indexShifter < numberList.size() - 1) {
+			indexShifter++;
+			String point = (String)numberList.elementAt(indexShifter);
+			System.out.println(wordList.elementAt(indexShifter));
+			if (point.equals(number)) {
+				list.append(wordList.elementAt(indexShifter));		
+			} else {
+				break;
+			}
+		}
+		return list;
+	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* EVERYTHING BELOW HERE PERTAINS TO QUICKSORTING AND SHOULD NOT BE CHANGED IN ANYWAY */
 	/** This is a custom quickSort that uniquely sorts the first vector, and the second vector will follow along but will not be sorted
 	 * @param vec the vector target
 	 * @param secondVec the vector that will follow the target vector
@@ -168,16 +207,16 @@ public class PhoneNumberWordBox {
 	private int partition(MyVector vec, MyVector secondVec, int low, int high) {
 		int mid = (low + high + 1) / 2;
 		if (compare(vec.elementAt(mid), vec.elementAt(low)) == -1) {
-			swap(secondVec, low, mid);	
 			swap(vec, low, mid);	
+			swap(secondVec, low, mid);	
 		}
 		if (compare(vec.elementAt(high), vec.elementAt(low)) == -1) {
-			swap(secondVec, low, high);	
 			swap(vec, low, high);	
+			swap(secondVec, low, high);	
 		}
 		if(compare(vec.elementAt(mid), vec.elementAt(high)) == -1) {
-			swap(secondVec, mid, high);	
 			swap(vec, mid, high);	
+			swap(secondVec, mid, high);	
 		}
 		//everything from this point works
 		int highCursor = high - 1;
@@ -196,6 +235,7 @@ public class PhoneNumberWordBox {
 				return lowCursor;
 			}
 			swap(vec, lowCursor, highCursor);
+			swap(secondVec, lowCursor, highCursor);
 		}
 
 	}
