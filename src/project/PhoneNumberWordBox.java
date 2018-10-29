@@ -17,7 +17,6 @@ public class PhoneNumberWordBox {
 		try {
 			list = new Scanner(file);
 			generateList(list);
-			System.out.println(wordList.size());
 		} catch (FileNotFoundException e) {
 			System.out.println("The file was not found");	
 		}
@@ -26,14 +25,8 @@ public class PhoneNumberWordBox {
 		preFixNumbers();
 		splitList();
 		quickSort(numberList, wordList, 0, numberList.size() - 1);
-		System.out.println(wordList.elementAt(0) + " " + wordList.elementAt(wordList.size() - 2) + " " + wordList.elementAt(wordList.size() - 1));
-		System.out.println(numberList.elementAt(0) + " " + numberList.elementAt(numberList.size() - 2) + " " + numberList.elementAt(numberList.size() - 1));
-		System.out.println(numberList.size());
-		System.out.println(isSorted(numberList));
-
 		//Quickly check the sort to make sure it's working	
 		long end = System.currentTimeMillis();
-		System.out.println((end - time) + " Milliseconds");
 		//From here on out, the list splits and sorts properly after inputting my minor hack.
 		
 	}
@@ -126,27 +119,17 @@ public class PhoneNumberWordBox {
 			System.out.println(wordList.elementAt(input));
 		}	
 	}
-	public void twoWords(String str) {
-		//Fragment the word
-		MyVector firstList = getStringForNumber(str.substring(0, 4));	
-		MyVector secondList = getStringForNumber(str.substring(4));
-		firstList.merge(secondList);
-		System.out.println(firstList);
-
-	}
 	public MyVector getStringForNumber(String number) {
-		//binarySearch implemented
 		MyVector list = new MyVector();
-		System.out.println("Starting binary search");
 		int index = MySearch.binarySearch(numberList, number); 
 		int indexShifter = index;
-		System.out.println(index);
-		String temp = (String)wordList.elementAt(index);
-		list.append(temp);
+		if (index != -1) {
+			String temp = (String)wordList.elementAt(index);
+			list.append(temp);
+		}
 		while (indexShifter > 0) {
 			indexShifter--;
 			String point = (String)numberList.elementAt(indexShifter);
-			System.out.println(wordList.elementAt(indexShifter));
 			if (point.equals(number)) {
 				list.append(wordList.elementAt(indexShifter));		
 			} else {
@@ -157,7 +140,6 @@ public class PhoneNumberWordBox {
 		while (indexShifter < numberList.size() - 1) {
 			indexShifter++;
 			String point = (String)numberList.elementAt(indexShifter);
-			System.out.println(wordList.elementAt(indexShifter));
 			if (point.equals(number)) {
 				list.append(wordList.elementAt(indexShifter));		
 			} else {

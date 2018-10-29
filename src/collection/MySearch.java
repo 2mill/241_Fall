@@ -22,7 +22,6 @@ public class MySearch {
 		int min = 0;
 		int max = vec.size();
 		int middle;
-		System.out.println("Entered binary search");
 		while (true) {
 			int length = max - min;
 			middle = length / 2 + min;
