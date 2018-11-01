@@ -1,8 +1,8 @@
 package collection;
 public class SLList {
 
-	private SLListNode head;
-	private SLListNode tail;
+	protected SLListNode head;
+	protected SLListNode tail;
 	public SLList() {
 		head = tail = null;	
 	}
@@ -27,7 +27,7 @@ public class SLList {
 	}
 	public boolean isEmpty() {
 	
-		if (head == tail) {
+		if (head == null && tail == null) {
 			return true;	
 		}	
 		else {
