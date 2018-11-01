@@ -13,19 +13,23 @@ public class SortedSLList extends SLList {
 			super.head = super.tail =  new SLListNode(e, null);	
 		} else {
 			SLListNode ref = head;
-			while (ref.next != null) {
-				int result = (((Comparable<Object>)(ref.data)).compareTo(e)); 
-				System.out.println("Looking at " + ref.data);
+			{
+				int result = (((Comparable<Object>)(head.data)).compareTo(e)); 
+				if (result > 0) {
+					head = new SLListNode(e, head);
+				}
+			
+			}
+			while (ref.next != null); {
+				int result = (((Comparable<Object>)(ref.next.data)).compareTo(e)); 
+				System.out.println("Looking at " + ref.next.data);
 				System.out.println(result);
 				if (result == -1 || result == 0) ref = ref.next;
 				else if (result == 1) {
-					SLListNode insert = new SLListNode(e, ref.next);
-					ref.next = insert;
+					ref.next = new SLListNode(e,ref.next);
 					return;
 				}
 			}
-			super.tail = super.tail.next = new SLListNode(e, null);
-			
 		}
 		
 	}
