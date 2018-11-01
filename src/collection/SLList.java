@@ -38,12 +38,22 @@ public class SLList {
 		if (head == null) {
 			return false;	
 		}	
+		if ((((Comparable)(head.data)).compareTo(element)) == 0) {
+			if (head == tail) {
+				head = tail = null;
+				return true;	
+			}	
+			head = head.next;
+			return true;
+		}
+		if (head == tail) {
+			return false;	
+		}
 		SLListNode ref = head;
 		while (ref.next != tail) {
 			if ((((Comparable)ref.next.data)).compareTo(element) == 0) {
-				tail = ref;
-				ref.next = null;
-				return true;	
+				ref.next = ref.next.next;
+				return true;
 			}	
 			ref = ref.next;
 		}
