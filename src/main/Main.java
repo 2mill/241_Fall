@@ -1,8 +1,8 @@
 package main;
-import lab.Lab6;
+import lab.Lab7;
 public class Main {
 
 	public static void main(String[] args) {
-		Lab6.test();
+		Lab7.test();
 	}
 }
