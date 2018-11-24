@@ -2,30 +2,47 @@ package project;
 import collection.MyStack;
 import collection.MyQueue;
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 public class Project2 {
 	public static void run() {
-		Scanner	sc = new Scanner(System.in);
-		System.out.println("Please input an equation to be proccs");
-		MyQueue postfix = null;
-		for (int i = 0; i < 5; i++) {
-			String temp = null;
-			temp = sc.nextLine();
-			//cleanup is functioning
-			temp = cleanUp(temp);
-			postfix = getPostfix(temp);
-			System.out.println("result " + calcPostfix(postfix));
-			
+		File outputFile = new File("../COSC241_P3_output_ydorn0.txt");
+		if (!outputFile.exists()) {
+			try {
+				outputFile.createNewFile();
+			} catch(IOException e) {
+				System.out.println("File creation failed for some reason");
+			}
 		}
+		Scanner input = null;
+		try {
+			input = new Scanner(new File("../COSC241_P3_Input.txt"));	
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");	
+		}
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter(outputFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File was not found");	
+		}
+		while (input.hasNextLine()) {
+			String temp = input.nextLine();
+			System.out.println("Processing " + temp);
+			writer.println(calcEquation(temp));	
+		}
+		writer.close();
+
 	}
-	public static String printQ(MyQueue target) {
-		MyQueue other = new MyQueue();	
-		String output = new String();
-		while (!target.isEmpty()) {
-			char holder = (char)target.removeFront();
-			output += holder;
-			other.insertBack(holder);
-		}
-		return output;
+	private static int calcEquation(String str) {
+		str = cleanUp(str);
+		MyQueue postfix = getPostfix(str);
+		System.out.println(postfix.toString());
+		return calcPostfix(postfix);
+		
+			
 			
 	}
 	private static String cleanUp (String str) {
@@ -57,10 +74,8 @@ public class Project2 {
 		return str;
 	}
 	private static MyQueue getPostfix(String str) {
-		System.out.println("Received " + str);
 		MyStack operators = new MyStack();
 		MyQueue postfix = new MyQueue();
-		System.out.println(str);
 		for (int i = 0; i < str.length(); i++) {//This will go through the entire string
 			char point = str.charAt(i);
 			int pointLevel = getPresedence(point);
@@ -86,7 +101,6 @@ public class Project2 {
 								else if(str.charAt(i) == ')') tempStack.pop();
 							}
 							String temp = str.substring(originalPosition + 1, i);
-							System.out.println(temp);
 							postfix.appendQ(getPostfix(temp));
 							
 						}
@@ -156,6 +170,9 @@ public class Project2 {
 					case '-' :
 						result = first - second;		
 						break;
+					case '%' : 
+						result = first % second;
+						break;
 					case '*' :
 						result = first * second;		
 						break;
@@ -165,7 +182,6 @@ public class Project2 {
 				
 				
 				}
-				System.out.println("Pushing " + result);
 				forNumbers.push(result);
 			}
 		}	
@@ -174,7 +190,7 @@ public class Project2 {
 	}
 	private static int getPresedence(char operator) {
 		String operators0 = "+-";
-		String operators1 = "/*";
+		String operators1 = "/*%";
 		String operators2 = ")(";
 		if (operators0.indexOf(operator) != -1) return 0;	
 		if (operators1.indexOf(operator) != -1) return 1;	
