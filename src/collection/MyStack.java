@@ -33,7 +33,7 @@ public class MyStack{
         top = new SLListNode(element, top);
     }
     
-    public Object top(){
+    public Object peek(){
         if(top == null){
             return null;
         }

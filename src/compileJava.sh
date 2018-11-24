@@ -1,8 +1,7 @@
 #!/bin/bash
 echo "================Program Start======================="
+javac project/Project2.java
 javac main/Main.java
-javac collection/MyStack.java
-javac lab/Lab7.java
 java main.Main
 echo "================Program End======================="
 #comment

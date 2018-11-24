@@ -5,31 +5,29 @@ public class MyDeque extends DLList{
 	}
 	public Object popFirst() {
 		if (head == null) {
-			return null;	
-		}	
-		Object temp = head;
-		if (head.next != null) {
-			head.next.previous = null;
-			head = head.next;
-		} else {
-			head = tail = null;		
+			return null;
 		}
-		return temp;
+		DLListNode temp = head;
+		if (tail == head) tail = head = null;
+		else {
+			head.next.prev = null;
+			head = head.next;	
+		}
+		return temp.data;
 				
 	}
 	public Object popLast() {
 		if (tail == null) {
 			return null;
 		}	
-		Object temp = tail;
-		if (tail == head) {
-			tail = head = null;	
-		}
+		DLListNode temp = tail;
+		if (tail == head) tail = head = null;
 		else {
-			tail.previous.next = null;
-			tail.previous = tail;	
+			tail.prev.next = null;
+			tail = tail.prev;	
 		}
-		return temp;
+		
+		return temp.data;
 	}
 	public Object peekFirst() {
 		return head;	

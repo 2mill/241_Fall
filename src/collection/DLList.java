@@ -1,88 +1,73 @@
 package collection;
-public class DLList {
-	public int size;
-	public DLListNode tail;
-	public DLListNode head;
-
-	public DLList() {
-		head = tail = null;
-		size = 0;	
-	}
-	public void clear() {
-		head = tail = null;	
-		size = 0;
-	}
-	public boolean isEmpty() {
-		return head == null && tail == null;
-	}
-	public int size() {
-		return size;	
-	}
-	public void append(Object element) {
-		DLListNode newNode = new DLListNode(element, tail);
-		if (isEmpty()) {
-			head = newNode;	
-		} else {
-			tail.next = newNode;	
+public class DLList{
+    public DLListNode head;
+    public DLListNode tail;
+    public DLList(){
+        head = tail = null;
+    }
+    
+    public void append (Object element){
+        if(head == null){
+            head = tail = new DLListNode(element, null, null);
+            return;
+        }
+        tail = new DLListNode(element, tail, null);
+        tail.prev.next = tail;
+    }
+    
+    public void insert(Object element){
+        if(head == null){
+            head = tail = new DLListNode(element, null, null);
+        }
+        else{
+            head.prev = new DLListNode(element, null, head);
+            head = head.prev;
+        }
+    }
+    
+    public void clear(){
+        //finish
+    }
+    
+    public void remove (Object element){
+        if(head == null) return;
+        if(((Comparable)head.data).compareTo(element) == 0){
+            if(head == tail){//single node case
+                head = tail = null;
+            }
+            else{
+                head = head.next;
+                head.prev = null;
+            }
+            return;
+        }
+        if(head == tail) return;
+        DLListNode ref = head.next;
+        while(ref != tail){
+            if(((Comparable)ref.data).compareTo(element) == 0){
+                ref.prev.next = ref.next;
+                ref.next.prev = ref.prev;
+                return;
+            }
+            ref = ref.next;
+        }
+        if(((Comparable)tail.data).compareTo(element) == 0){
+            tail = tail.prev;
+            tail.next = null;
+        }
+    }
+    
+    public String toString(){
+	   String output = new String();
+	   if (head == null) {
+	  	output += "The list is empty"; 
+	   } else {
+	  	DLListNode temp = head;	 
+		while (temp != null) {
+			output += temp.data.toString() + "<-->";	
+			temp = temp.next;
 		}
-		tail = newNode;
-		size++;
-	}
-	public void insert(Object element) {
-		DLListNode newNode = new DLListNode(element, null, head);	
-		if (isEmpty()) {
-			tail = head = newNode;	
-		} else {
-			head.previous = newNode;
-			head = newNode;	
-		}
-		size++;
-	}
-	public boolean remove(Object element) {
-		if (isEmpty()) return false;
-		DLListNode temp = head;
-		if (temp.data.equals(element)) {
-			if (size == 1) tail = head = null;
-			else {
-				head = head.next;
-				head.previous = null;	
-			}	
-			size--;
-			return true;
-		}	
-		while (temp.next != null) {
-			DLListNode temptemp = temp.next;	
-			if (temptemp.data.equals(element)) {
-				if (temptemp == tail) {
-					tail = temp;
-					temp.next = null;	
-				} else {
-					temp.next = temptemp.next;	
-					temp.next.previous = temp;
-				}
-				size--;
-				return true;
-			}
-			temp = temptemp;
-				
-		}
-		return false;
-
-	}
-	public String toString() {
-		String output = new String();
-		DLListNode start = head;
-		while (start != null) {
-		
-			output += start.data.toString() + "->";	
-			start = start.next;
-		
-		}
-		output += "end";
-		return output;
-		
-	}
-
-	
-
+	   }
+	   return output;
+    }
 }

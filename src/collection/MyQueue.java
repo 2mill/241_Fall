@@ -19,6 +19,11 @@ public class MyQueue{
         }
         rear = rear.next = new SLListNode(element, null);
     }
+    public void appendQ(MyQueue other) {
+	    rear.next = other.front;
+	    rear = other.rear;
+    
+    }
     
     public Object removeFront(){
         if(front == null){
