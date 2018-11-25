@@ -1,0 +1,10 @@
+Postfix expression 345*+
+3+4*5 = 23
+Postfix expression 34+5*
+((3+4))*5 = 35
+Invalid Input
+Postfix expression 345+6%*78/-
+3*((4+5)%6)-7/8 = 9
+Invalid Input
+Postfix expression 345+6%*788/-
+3*((4+5)%6)-7/88 = 9

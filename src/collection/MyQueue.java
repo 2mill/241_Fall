@@ -20,8 +20,9 @@ public class MyQueue{
         rear = rear.next = new SLListNode(element, null);
     }
     public void appendQ(MyQueue other) {
-	    rear.next = other.front;
-	    rear = other.rear;
+	    while (!other.isEmpty()) {
+	   		this.insertBack(other.removeFront()); 
+	    }
     
     }
     

@@ -9,37 +9,72 @@ import java.io.FileNotFoundException;
 public class Project2 {
 	public static void run() {
 		File outputFile = new File("../COSC241_P3_output_ydorn0.txt");
-		if (!outputFile.exists()) {
-			try {
-				outputFile.createNewFile();
-			} catch(IOException e) {
-				System.out.println("File creation failed for some reason");
-			}
-		}
+		File inputFile = new File("../COSC241_P3_Input.txt");
 		Scanner input = null;
-		try {
-			input = new Scanner(new File("../COSC241_P3_Input.txt"));	
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");	
-		}
 		PrintWriter writer = null;
 		try {
+			if (!outputFile.exists()) {
+				outputFile.createNewFile();	
+			}	
+		
+		} catch (IOException e) {
+			System.out.println("Failed to create new file");	
+		}	
+		try {
+			input = new Scanner(inputFile);	
 			writer = new PrintWriter(outputFile);
 		} catch (FileNotFoundException e) {
-			System.out.println("File was not found");	
+			System.out.println("The File was not found for input or the Printwriter");	
 		}
 		while (input.hasNextLine()) {
-			String temp = input.nextLine();
-			System.out.println("Processing " + temp);
-			writer.println(calcEquation(temp));	
+			String inputLine = input.nextLine();
+			if (!inputLine.isEmpty()) {
+				inputLine = cleanUp(inputLine);
+				if (inputLine.equals("Invalid Input")) {
+					writer.println(inputLine);
+				} else {
+					MyQueue postfix = getPostfix(inputLine);	
+					writer.println("Postfix expression " + postfixString(postfix));
+					writer.println(inputLine + " = " + calcPostfix(postfix));
+					
+				}	
+			}	
 		}
 		writer.close();
 
 	}
+	private static String postfixString(MyQueue postfix) {
+		MyQueue temp = new MyQueue();	
+		String output = new String();
+		while (!postfix.isEmpty()) {
+			Object objTemp = postfix.removeFront();		
+			output += objTemp;
+			temp.insertBack(objTemp);
+		}
+		while (!temp.isEmpty()) postfix.insertBack(temp.removeFront());
+		return output;
+
+	}
+	private static String printQ(MyQueue q) {
+		MyQueue temp = new MyQueue();	
+		String str = new String();
+		while (!q.isEmpty()) {
+			temp.insertBack(q.removeFront());
+			str += q.removeFront();	
+		}
+		return str;
+	}
 	private static int calcEquation(String str) {
 		str = cleanUp(str);
+		if (str.equals("Invalid Input")) {
+			System.out.println("Error, returning 0");	
+			return 0;
+		}
 		MyQueue postfix = getPostfix(str);
-		System.out.println(postfix.toString());
+		if ((char)postfix.front() == '!') {
+			System.out.println("Error, returning 0");	
+			return 0;
+		}
 		return calcPostfix(postfix);
 		
 			
@@ -70,100 +105,106 @@ public class Project2 {
 			}
 		}	
 		if (!checkParanthesis.isEmpty()) str = "Invalid Input";
+		//Now we can put it into a q and make sure that it is error free.
 		//check paranthesis
+		//Last check to make sure that the amount of operators is n - 1 the digits.
+		int recordDigits = 0;
+		int recordOperators = 0;
+		boolean alreadyDigit = false;
+		for (int i = 0; i < str.length(); i++) {
+			if (Character.isDigit(str.charAt(i))) {
+				if (!alreadyDigit)
+					recordDigits++;	
+				alreadyDigit = true;
+			} else if (str.charAt(i) != '(' && str.charAt(i) != ')') {
+				recordOperators++;
+				alreadyDigit = false;	
+			}	
+		}
+		if (recordOperators!= recordDigits - 1) str = "Invalid Input";
+		
 		return str;
 	}
 	private static MyQueue getPostfix(String str) {
 		MyStack operators = new MyStack();
 		MyQueue postfix = new MyQueue();
-		for (int i = 0; i < str.length(); i++) {//This will go through the entire string
+		for (int i = 0; i < str.length(); i++) {
 			char point = str.charAt(i);
-			int pointLevel = getPresedence(point);
-			if ( pointLevel != -1) {//checks to see if it is an operator using the level checker down below.
-				if (postfix.isEmpty()) postfix.insertBack(point);//this is an instance where the postfix is empty so we automatically add.	
-				else {
-					//first we need to check if the character has a paranthesis, because it get's it's own treatment in that instance.
-					if (pointLevel== 2) {
-						//reinsert it back into this function and append the result onto the back of the original q
-						//handling operators is stable right now, so now we cna dive into the paranthesis
-						//first we need to grab a snippet with the paranthesis
-						if (point == '(') {
-							//start a new stack, hold this position, push this open paran and pop for closed ones until empty
-							//hop i appropriately so that we are already at the correct position for the substring
-							//and we are already at the correct position to continue from
-							//We do need a holder for the original position
-							int originalPosition = i;
-							MyStack tempStack = new MyStack();
-							tempStack.push(point);
-							while (!tempStack.isEmpty()) {
-								i++;	
-								if (str.charAt(i) == '(') tempStack.push(str.charAt(i));
-								else if(str.charAt(i) == ')') tempStack.pop();
-							}
-							String temp = str.substring(originalPosition + 1, i);
-							postfix.appendQ(getPostfix(temp));
-							
-						}
-					
-
+			if (Character.isDigit(point)) {
+				String collection = new String();
+				int j = 0;
+				for (j = i; j < str.length(); j++) {
+					if (Character.isDigit(str.charAt(j))) {
+						collection += str.charAt(j);	
+					} else {
+						break;
 					}
-					else {
-						//This needs to change, because we pop until we find something that is not.
-						while (!operators.isEmpty()) { //run until the end, because we known once it's empty we can definetly insert
-							char top = (char)operators.peek();	
-							int topLevel = getPresedence(top);
-							if (topLevel > pointLevel) { //In this instance, the presedence of the top is higher, thus we pop and put it in hte q
-								postfix.insertBack(operators.pop());
-						
-							} else {
-								//pop the thing that has the same presedence and put it into the list.
-								//This only applies when the presedence is the same and does not apply in any other situation
-								if (topLevel == pointLevel) {
-									postfix.insertBack(operators.pop());	
-									operators.push(point);
-								} else {
-									operators.push(point);//At this point we know it does not have higher presedence, so we can push	
-								}
-								break; //we brake at this point, because we have reached our destination w/ the operator
-							}
-						}
-						if (operators.isEmpty()) operators.push(point);
-					
-					}	
-					//pop the top most value of the stack and compare. If it's level is higher than the point
-					//then we insert it into the 		
 				}
-
-			} else if (Character.isDigit(point)) {
-				//in this instance w/ it being a number, we slap it into the thing
-				postfix.insertBack(point);	
+				i = j - 1;
+				int value = Integer.parseInt(collection);
+				postfix.insertBack(value);
+				continue;
 			} else {
-				//This is an instance where an unkown character is received
-				//The postfix will be cleared and an ! will be inserted into the front
-				//this means that when I do a final check to see if the expression is valid, I have a firm understanding.
-				postfix.clear();
-				postfix.insertBack('!');	
+				int pointLevel = getPresedence(point);
+				if (pointLevel == 2) {
+					int original = i;
+					MyStack stackTemp = new MyStack();
+					stackTemp.push('(');
+					while (!stackTemp.isEmpty()) {
+						i++;
+						if (str.charAt(i) == '(') stackTemp.push('(');
+						else if (str.charAt(i) == ')') stackTemp.pop();		
+					}
+					postfix.appendQ(getPostfix(str.substring(original + 1, i)));
+					
+				
+				} else {
+					while (!operators.isEmpty()) {
+						int otherLevel = getPresedence((char)operators.peek());	
+						if (otherLevel > pointLevel) {
+							postfix.insertBack(operators.pop());	
+						} else {
+							if (otherLevel == pointLevel) {
+								postfix.insertBack(operators.pop());	
+								operators.push(point);
+							} else {
+								operators.push(point);
+							}	
+							break;
+						}
+					}
+					if (operators.isEmpty()) operators.push(point);
+				}
 			}
-		
 		}
-		while (!operators.isEmpty()) {
-			postfix.insertBack(operators.pop());	
-		}
+		while (!operators.isEmpty()) postfix.insertBack(operators.pop());
 		return postfix;
 
+}
+	private static int getPresedence(char operator) {
+		String operators0 = "+-";
+		String operators1 = "/*%";
+		String operators2 = ")(";
+		if (operators0.indexOf(operator) != -1) return 0;	
+		if (operators1.indexOf(operator) != -1) return 1;	
+		if (operators2.indexOf(operator) != -1) return 2;	
+		else return -1;
+		
+			
 	}
 	private static int calcPostfix(MyQueue postfix) {
 		MyStack forNumbers = new MyStack();
 		while (!postfix.isEmpty()) {
-			char point = (char)postfix.removeFront();	
-			if (Character.isDigit(point)) {
-				forNumbers.push((int)point - 48);
+			Object point = postfix.removeFront();
+			if (point instanceof Integer) {
+				forNumbers.push((int)point);
 			} else {
+				char temp = (char)point;
 				//pop two numbers
 				int second = (int)forNumbers.pop();
 				int first = (int)forNumbers.pop();
 				int result = 0;
-				switch(point) {
+				switch(temp) {
 					case '+' :
 						result = first + second;		
 						break;
@@ -187,16 +228,5 @@ public class Project2 {
 		}	
 		return (int)forNumbers.pop();
 	
-	}
-	private static int getPresedence(char operator) {
-		String operators0 = "+-";
-		String operators1 = "/*%";
-		String operators2 = ")(";
-		if (operators0.indexOf(operator) != -1) return 0;	
-		if (operators1.indexOf(operator) != -1) return 1;	
-		if (operators2.indexOf(operator) != -1) return 2;	
-		else return -1;
-		
-			
 	}
 }
