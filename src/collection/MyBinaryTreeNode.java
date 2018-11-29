@@ -1,4 +1,4 @@
-package collection;
+package collection;//Start of Lab8
 public class MyBinaryTreeNode implements Comparable<MyBinaryTreeNode>{
 	public Object data;
 	MyBinaryTreeNode left;

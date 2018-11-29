@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
-public class Project2 {
+public class Project3{
 	public static void run() {
 		File outputFile = new File("../COSC241_P3_output_ydorn0.txt");
 		File inputFile = new File("../COSC241_P3_Input.txt");
