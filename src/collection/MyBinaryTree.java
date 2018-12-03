@@ -11,7 +11,7 @@ public abstract class MyBinaryTree {
 	private int sizeHelper(MyBinaryTreeNode rt) {
 		//base case	
 		if (rt == null) return 0;
-		return sizeHelper(rt.left)+selfHelper(rt.right) + 1;
+		return sizeHelper(rt.left)+sizeHelper(rt.right) + 1;
 	}
 	private int heightHelper(MyBinaryTreeNode rt, int ht) {
 		if (rt == null) return ht;	
