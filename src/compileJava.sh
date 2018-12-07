@@ -2,6 +2,7 @@
 echo "================Program Start======================="
 javac collection/MyBinaryTree.java
 javac collection/MyBinarySearchTree.java
+javac collection/MyBinaryNode.java
 javac lab/Lab9.java
 javac main/Main.java
 java main.Main

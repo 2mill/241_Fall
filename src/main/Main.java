@@ -1,4 +1,5 @@
 package main;
+import collection.MyBinarySearchTree;
 import lab.Lab9;
 public class Main {
 
