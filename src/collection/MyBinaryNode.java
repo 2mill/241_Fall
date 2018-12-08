@@ -25,7 +25,7 @@ public class MyBinaryNode implements Comparable<MyBinaryNode>{
 		
 	}
 	public String toString() {
-		return node.data.toString();	
+		return this.data.toString();	
 	}
 
 }
