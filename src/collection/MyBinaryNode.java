@@ -15,5 +15,17 @@ public class MyBinaryNode implements Comparable<MyBinaryNode>{
 		return second.compareTo(first);
 
 	}
+	public void printNode() {
+		printNode(this);			
+	}
+	public void printNode(MyBinaryNode node) {
+		if (node == null) {
+			return;	
+		}	
+		
+	}
+	public String toString() {
+		return node.data.toString();	
+	}
 
 }

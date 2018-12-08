@@ -43,7 +43,7 @@ public class Project3{
 		writer.close();
 
 	}
-	private static String postfixString(MyQueue postfix) {
+	public static String postfixString(MyQueue postfix) {
 		MyQueue temp = new MyQueue();	
 		String output = new String();
 		while (!postfix.isEmpty()) {
@@ -80,7 +80,7 @@ public class Project3{
 			
 			
 	}
-	private static String cleanUp (String str) {
+	public static String cleanUp (String str) {
 		str = str.replaceAll(" ", "");
 		str = str.replaceAll("x", "*");
 		str = str.replaceAll("X", "*");
@@ -125,7 +125,7 @@ public class Project3{
 		
 		return str;
 	}
-	private static MyQueue getPostfix(String str) {
+	public static MyQueue getPostfix(String str) {
 		MyStack operators = new MyStack();
 		MyQueue postfix = new MyQueue();
 		for (int i = 0; i < str.length(); i++) {
