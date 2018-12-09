@@ -88,18 +88,47 @@ public class MyBinaryTree {
 		preorder(root.rightChild);
 	
 	}
-	public void inorder() {
-		inorder(root);	
-		System.out.println();
-	}
-	public void postorder() {
-		postorder(root);	
-		System.out.println();
-
-	}
-	public void preorder() {
-		preorder(root);	
-		System.out.println();
-
-	}
+    public String preOrder(BinaryTreeNode root){
+        String o = "";
+        output="";
+        o += preOrderHelper(root);
+        return o;
+    }
+    
+    private String preOrderHelper(BinaryTreeNode rt){
+        if (rt == null) return output; //return rt?
+        output += (rt.data);
+        preOrderHelper(rt.left);
+        preOrderHelper(rt.right);
+        return output;
+    }
+    public String inOrder(BinaryTreeNode root){
+        String o = "";
+        output="";
+        o += inOrderHelper(root);
+        return o;
+    }
+    
+    private String inOrderHelper(BinaryTreeNode rt){
+        if (rt == null) return output; //return rt?
+        inOrderHelper(rt.left);
+        output+= (rt.data);
+        inOrderHelper(rt.right);
+        return output;
+    }
+    
+    public String postOrder(BinaryTreeNode root){
+        String o = "";
+        output="";
+        o += postOrderHelper(root);
+        return o;
+    }
+    
+    private String postOrderHelper(BinaryTreeNode rt){
+        if (rt == null) return output; //return rt?
+        postOrderHelper(rt.left);
+        postOrderHelper(rt.right);
+        output += (rt.data);
+        return output;
+    }
 }

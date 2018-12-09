@@ -26,7 +26,7 @@ public class MyExpressionTree extends MyBinaryTree {
 	public void clear() {
 		root = null;	
 	}
-	private int evaluateTree() {
+	public int evaluateTree() {
 		return evaluateTree(root);			
 	}
 	private int evaluateTree(MyBinaryNode root) {
