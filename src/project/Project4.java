@@ -28,17 +28,27 @@ public class Project4 {
 		}
 		while (inputFile.hasNextLine()) {
 			String holder = inputFile.nextLine();
-			if (!holder.isEmpty()) continue;		
-			System.out.println("Original Infix: " + holder);
+			System.out.println(holder.length());
+			if (holder.length() == 0) {
+				continue;	
+			}
+			writer.println("Original Infix: " + holder);
 			MyExpressionTree tree = new MyExpressionTree(holder);	
-			System.out.print("Preorder traversal: ");
-			tree.preorder();
-			System.out.print("Inorder traversal: ");
-			tree.inorder();
-			System.out.print("Postorder traversal: ");
-			tree.postorder();
-			System.out.println("Evaluate Result: " + tree.evaluateTree());
+			if (tree.isEmpty()) {
+				writer.println("Invalid Expression"); 
+				writer.println();
+				continue;
+			}
+			writer.print("Preorder traversal: ");
+			writer.println(tree.preOrder());
+			writer.print("Inorder traversal: ");
+			writer.println(tree.inOrder());
+			writer.print("Postorder traversal: ");
+			writer.println(tree.postOrder());
+			writer.println("Evaluate Result: " + tree.evaluateTree());
+			writer.println();
 		}
+		writer.close();
 
 			
 	}

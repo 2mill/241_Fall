@@ -3,6 +3,7 @@ import collection.MyQueue;
 import collection.MyBinaryNode;
 public class MyBinaryTree {
 	protected MyBinaryNode root; 
+	protected static String output;
 	public MyBinaryTree() {
 		root = new MyBinaryNode(null);	
 	}
@@ -88,47 +89,81 @@ public class MyBinaryTree {
 		preorder(root.rightChild);
 	
 	}
-    public String preOrder(BinaryTreeNode root){
-        String o = "";
-        output="";
-        o += preOrderHelper(root);
-        return o;
-    }
+//    public String preOrder(){
+//    output += "";
+//    preOrder(root);
+//        return output;
+//    }
+//   public void preOrder(MyBinaryNode root) {
+//      if (root == null) return;
+//          output += root.data;
+//    preOrder(root.leftChild);
+//    preOrder(root.rightChild);
+//   }
+//    public String inOrder(){
+//    String output = new String();
+//    inOrder(root);
+//    return output;
+//    }
+//   public void inOrder(MyBinaryNode root) {
+//    if (root == null) return;
+//      inOrder(root.leftChild);
+//    output += root.data.toString();
+//    inOrder(root.rightChild);
+//   }
+//    public String postOrder(){
+//    output = "";
+//    postOrder(root);
+//        return output;
+//    }
+//    private void postOrder(MyBinaryNode root) {
+//    if (root == null) return;
+//       postOrder(root.leftChild);
+//    postOrder(root.rightChild);
+//    output += root.data;
+//    }
     
-    private String preOrderHelper(BinaryTreeNode rt){
-        if (rt == null) return output; //return rt?
-        output += (rt.data);
-        preOrderHelper(rt.left);
-        preOrderHelper(rt.right);
-        return output;
-    }
-    public String inOrder(BinaryTreeNode root){
+    public String inOrder(){
         String o = "";
         output="";
         o += inOrderHelper(root);
         return o;
     }
     
-    private String inOrderHelper(BinaryTreeNode rt){
+    private String inOrderHelper(MyBinaryNode rt){
         if (rt == null) return output; //return rt?
-        inOrderHelper(rt.left);
+        inOrderHelper(rt.leftChild);
         output+= (rt.data);
-        inOrderHelper(rt.right);
+        inOrderHelper(rt.rightChild);
         return output;
     }
-    
-    public String postOrder(BinaryTreeNode root){
+    public String postOrder(){
         String o = "";
         output="";
         o += postOrderHelper(root);
         return o;
     }
     
-    private String postOrderHelper(BinaryTreeNode rt){
+    private String postOrderHelper(MyBinaryNode rt){
         if (rt == null) return output; //return rt?
-        postOrderHelper(rt.left);
-        postOrderHelper(rt.right);
+        postOrderHelper(rt.leftChild);
+        postOrderHelper(rt.rightChild);
         output += (rt.data);
         return output;
     }
+    public String preOrder(){
+        String o = "";
+        output="";
+        o += preOrderHelper(root);
+        return o;
+    }
+    
+    private String preOrderHelper(MyBinaryNode rt){
+        if (rt == null) return output; //return rt?
+        output += (rt.data);
+        preOrderHelper(rt.leftChild);
+        preOrderHelper(rt.rightChild);
+        return output;
+    }
+    
 }

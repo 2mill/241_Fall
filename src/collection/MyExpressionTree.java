@@ -6,11 +6,16 @@ import java.util.Arrays;
 public class MyExpressionTree extends MyBinaryTree {
 	public MyExpressionTree(String input) {	
 		input = Project3.cleanUp(input);
-		if (input.equalsIgnoreCase("Invalid Input")) System.out.println("Invalid input");
+		System.out.println(input);
+		if (input.equalsIgnoreCase("Invalid Input")) {
+			System.out.println("Invalid input");
+			root = null;
+		}
 		else {
 			System.out.println(input);
 			String tempString = new String();
 			input = prepForReversal(input);
+			System.out.println("After prep " + input);
 			tempString = "";
 			char[] forString = input.toCharArray();
 			for (int i = 0; i < forString.length; i++) {
@@ -18,10 +23,15 @@ public class MyExpressionTree extends MyBinaryTree {
 				else if (forString[i] == '(') tempString += ')';
 				else tempString += forString[i];
 			}
+			System.out.println("After fixing everything" + tempString);
 			input = tempString;
 			input = modifiedPostfixString(Project3.getPostfix(input));
 			constructPostfix(input);
+			System.out.println(evaluateTree());
 		}
+	}
+	public boolean isEmpty() {
+		return root == null;	
 	}
 	public void clear() {
 		root = null;	
@@ -81,22 +91,6 @@ public class MyExpressionTree extends MyBinaryTree {
 	
 	}
 	private void constructPostfix(String input) {
-		System.out.println("Received " + input);
-		String collect = "";
-		String tempString = "";
-		for (int i = 0; i < input.length(); i++) {
-			if (Character.isDigit(input.charAt(i))) {
-				collect += input.charAt(i);	
-			} else {
-				tempString += collect + " ";
-				tempString += input.charAt(i);
-				collect = "";	
-			}	
-		}
-		if (!collect.isEmpty()) {
-			tempString += collect;	
-		}
-		input = tempString;
 		System.out.println("Input is now " + input);
 		Scanner forInput = new Scanner(input);
 		MyStack temp = new MyStack();
