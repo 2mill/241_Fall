@@ -10,9 +10,7 @@ public class MyExpressionTree extends MyBinaryTree {
 		else {
 			System.out.println(input);
 			String tempString = new String();
-			System.out.println("Expression before rever " + input);
 			input = prepForReversal(input);
-			System.out.println("Expression after reversing ints " + input);
 			tempString = "";
 			char[] forString = input.toCharArray();
 			for (int i = 0; i < forString.length; i++) {
@@ -21,16 +19,48 @@ public class MyExpressionTree extends MyBinaryTree {
 				else tempString += forString[i];
 			}
 			input = tempString;
-			System.out.println("Reversed expression " + input);
 			input = modifiedPostfixString(Project3.getPostfix(input));
 			constructPostfix(input);
-			inorder();
-			preorder();
-			postorder();
 		}
 	}
 	public void clear() {
 		root = null;	
+	}
+	private int evaluateTree() {
+		return evaluateTree(root);			
+	}
+	private int evaluateTree(MyBinaryNode root) {
+		int result = 0;
+		if (root != null) {
+			if (Character.isDigit(root.toString().charAt(0))) {
+				return Integer.parseInt(root.data.toString());	
+			}
+			else {
+				int left = evaluateTree(root.leftChild);
+				int right = evaluateTree(root.rightChild);
+				result = 0;
+				switch(root.data.toString().charAt(0)) {
+					case '+' :
+						result = left + right;		
+						break;
+					case '-' :
+						result = left - right;		
+						break;
+					case '%' : 
+						result = left % right;
+						break;
+					case '*' :
+						result = left * right;		
+						break;
+					case '/' :
+						result = left / right;		
+						break;
+				
+				
+				}
+			} 
+		}	
+		return result;
 	}
 	private String prepForReversal(String input) {
 		String tempString = new String();

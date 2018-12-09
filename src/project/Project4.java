@@ -8,7 +8,8 @@ public class Project4 {
 		MyExpressionTree tree = null;
 		for (int i = 0; i < 5; i++) {
 			tree = new MyExpressionTree(sc.nextLine());
-				
+			System.out.println("Inorder");
+			tree.inorder();
 		}
 	}
 }
