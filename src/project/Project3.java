@@ -122,7 +122,6 @@ public class Project3{
 			}	
 		}
 		if (recordOperators!= recordDigits - 1) str = "Invalid Input";
-		
 		return str;
 	}
 	public static MyQueue getPostfix(String str) {
