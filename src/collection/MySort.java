@@ -162,6 +162,8 @@ public class MySort {
 	 * @param vec the Vector that will be sorted
 	 */
 	public static void quickSort(MyVector vec) {
+		System.out.print("First I feed the vector into the quick sort function with the values 0 and length - 1");
+		System.out.println(vec.size());
 		quickSort(vec, 0, vec.size() - 1);		
 	}
 	/** The actual heart of the quick sort
@@ -172,6 +174,7 @@ public class MySort {
 	private static void quickSort(MyVector vec, int start, int end) {
 		//This is some garbage and I need to refactor later
 		if (start < end) {
+			System.out.println("Here I parition the vectors with values " + start + " and " + end);
 			int partition = partition(vec, start, end);
 			quickSort(vec, start, partition - 1);
 			quickSort(vec, partition + 1, end);
@@ -186,17 +189,18 @@ public class MySort {
 	 */
 	private static int partition(MyVector vec, int low, int high) {
 		int mid = (low + high + 1) / 2;
-		if (compare(vec.elementAt(mid), vec.elementAt(low)) == -1) {
-			swap(vec, low, mid);	
+		if (compare(low, mid) == 1) {
+			swap(vec, mid, low);	
 		}
-		if (compare(vec.elementAt(high), vec.elementAt(low)) == -1) {
+		if (compare(low, high) == 1) {
 			swap(vec, low, high);	
 		}
-		if(compare(vec.elementAt(mid), vec.elementAt(high)) == -1) {
+		if (compare(mid, high) == 1) {
 			swap(vec, mid, high);	
 		}
+		System.out.println(vec);
 		//everything from this point works
-		int highCursor = high - 1;
+		int highCursor = high;
 		int lowCursor = low;
 		Object pivot = vec.elementAt(high);
 		while (true) {
